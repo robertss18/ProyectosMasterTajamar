@@ -1,0 +1,55 @@
+﻿@model List<SeriesDynamoDB.Models.Serie>
+
+@{
+    ViewData["Title"] = "Catálogo de Series";
+}
+
+<style>
+    .titulo-card {
+        animation: fadeSlide 1.2s ease-out forwards;
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    @@keyframes fadeSlide {
+        to
+
+    {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    }
+</style>
+
+<div class="card mb-5 border-0 shadow-sm rounded-4 titulo-card" style="background-color: #eef1f6;">
+    <div class="card-body py-4 px-5">
+        <h2 class="text-secondary fw-semibold m-0 text-center">@ViewData["Title"]</h2>
+    </div>
+</div>
+
+<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+    @foreach (var serie in Model)
+    {
+        <div class="col">
+            <div class="card h-100 border-0 shadow-sm rounded-4" style="background-color: #f9f9f9;">
+                <div class="card-body p-4">
+                    <h5 class="card-title text-secondary fw-semibold">@serie.Titulo</h5>
+                    <p class="card-text text-muted" style="line-height: 1.6;">
+                        <strong>Género:</strong> @serie.Genero <br />
+                        <strong>Temporadas:</strong> @serie.Temporadas <br />
+                        <strong>Disponible en:</strong> @serie.DisponibleEn
+                    </p>
+                    <div class="d-flex gap-2">
+                        <a asp-action="Edit" asp-route-id="@serie.SerieId" class="btn btn-outline-secondary btn-sm">Editar</a>
+                        <a asp-action="Delete" asp-route-id="@serie.SerieId" class="btn btn-outline-danger btn-sm">Eliminar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<div class="mt-5">
+    <a asp-action="Create" class="btn btn-light border">+ Nueva Serie</a>
+</div>

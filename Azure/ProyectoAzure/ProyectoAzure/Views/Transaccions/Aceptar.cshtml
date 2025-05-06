@@ -1,0 +1,54 @@
+﻿@{
+    ViewData["Title"] = "Procesar Colas y Suscripciones";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-warning text-dark">
+                    <h4 class="mb-0">Aceptar Transacción desde la Cola</h4>
+                </div>
+                <div class="card-body">
+
+                    <p class="text-muted">Al hacer clic en "Aceptar", se procesará el siguiente mensaje en la cola y se actualizará la transacción correspondiente.</p>
+
+                    <div class="d-grid gap-2">
+                        <button id="btnReceiveQueue" class="btn btn-warning btn-lg">
+                            <i class="bi bi-check-circle me-2"></i> Aceptar
+                        </button>
+                    </div>
+
+                    <div id="queueMessage" class="alert alert-info mt-4 d-none"></div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.getElementById("btnReceiveQueue").addEventListener("click", function () {
+            fetch("/Transaccions/ReceiveMessagesFromQueue", { method: "POST" })
+                .then(response => response.text())
+                .then(data => {
+                    console.log("📥 Cola:", data);
+                    const messageDiv = document.getElementById("queueMessage");
+                    messageDiv.innerHTML = data;
+                    messageDiv.classList.remove("d-none");
+                    messageDiv.classList.add("show");
+                })
+                .catch(error => {
+                    console.error('⚠️ Error cola:', error);
+                    const messageDiv = document.getElementById("queueMessage");
+                    messageDiv.innerHTML = "⚠️ Error al procesar la cola.";
+                    messageDiv.classList.remove("d-none");
+                    messageDiv.classList.add("alert-danger");
+                });
+        });
+    </script>
+}
+

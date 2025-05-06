@@ -1,0 +1,21 @@
+﻿
+@{
+    ViewData["Title"] = "Leer de Kinesis";
+    var messages = ViewBag.Messages as List<string>;
+}
+
+<h1>Mnesajes desde Kinesis</h1>
+
+@if(messages != null && messages.Any()){
+<ul>
+        @foreach (var message in messages)
+        {
+            <li>@message</li>
+        }
+    </ul>
+}
+else
+{
+    <p>No hay mensajes.</p>
+}
+

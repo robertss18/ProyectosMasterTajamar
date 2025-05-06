@@ -1,0 +1,115 @@
+﻿@model IEnumerable<ProyectoAzure.Models.Transaccion>
+
+@{
+    ViewData["Title"] = "Transacciones";
+    var estados = new[] { "Exitosa", "Pendiente", "Fallida" };
+}
+
+<div class="container py-5">
+    <!-- Título principal -->
+    <div class="text-center mb-5">
+        <h1 class="display-5 fw-bold text-dark">
+            <i class="bi bi-clipboard-data text-primary me-2"></i> Gestión de Transacciones
+        </h1>
+        <p class="text-muted">Consulta, filtra y administra todas tus transacciones en un solo lugar.</p>
+        <a asp-action="Create" class="btn btn-success btn-lg mt-3 shadow-sm rounded-pill px-4">
+            <i class="bi bi-plus-circle me-2"></i> Nueva Transacción
+        </a>
+    </div>
+
+    <!-- Resumen de transacciones -->
+    <div class="row text-center mb-5">
+        @foreach (var estado in estados)
+        {
+            var count = Model.Count(t => t.Estado == estado);
+            var colorClase = estado switch
+            {
+                "Exitosa" => "text-success",
+                "Pendiente" => "text-warning",
+                "Fallida" => "text-danger",
+                _ => "text-secondary"
+            };
+            <div class="col-md-4">
+                <div class="p-3 border rounded-4 shadow-sm bg-light">
+                    <h5 class="fw-semibold @colorClase">@estado</h5>
+                    <p class="fs-4 fw-bold">@count</p>
+                </div>
+            </div>
+        }
+    </div>
+
+    <!-- Botones de filtro por estado -->
+    <div class="d-flex flex-wrap justify-content-center gap-3 mb-5">
+        @foreach (var estado in estados)
+        {
+            var transacciones = Model.Where(t => t.Estado == estado);
+            if (!transacciones.Any()) continue;
+
+            var modalId = $"modal_{estado}";
+            var colorClase = estado switch
+            {
+                "Exitosa" => "btn-outline-success",
+                "Pendiente" => "btn-outline-warning",
+                "Fallida" => "btn-outline-danger",
+                _ => "btn-outline-dark"
+            };
+
+            <button type="button" class="btn @colorClase px-5 py-2 fw-semibold rounded-3" data-bs-toggle="modal" data-bs-target="#@modalId">
+                <i class="bi bi-eye me-2"></i> Ver @estado
+            </button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="@modalId" tabindex="-1" aria-labelledby="@($"{modalId}_Label")" aria-hidden="true">
+                <div class="modal-dialog modal-xl modal-dialog-scrollable">
+                    <div class="modal-content rounded-5 shadow-lg">
+                        <div class="modal-header bg-light border-bottom-0">
+                            <h5 class="modal-title fw-semibold" id="@($"{modalId}_Label")">
+                                Transacciones @estado
+                            </h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p class="text-muted">Aquí puedes consultar todas las transacciones con estado <strong>@estado</strong>.</p>
+                            <div class="table-responsive">
+                                <table class="table table-hover align-middle text-center border rounded-4 overflow-hidden">
+                                    <thead class="table-dark">
+                                        <tr>
+                                            <th>@Html.DisplayNameFor(model => model.Monto)</th>
+                                            <th>@Html.DisplayNameFor(model => model.TipoTransaccion)</th>
+                                            <th>@Html.DisplayNameFor(model => model.CuentaDestino)</th>
+                                            <th>@Html.DisplayNameFor(model => model.DetallesAdicionales)</th>
+                                            <th>@Html.DisplayNameFor(model => model.Estado)</th>
+                                            <th>@Html.DisplayNameFor(model => model.FechaCreacion)</th>
+                                            <th>@Html.DisplayNameFor(model => model.FechaProcesamiento)</th>
+                                            <th>@Html.DisplayNameFor(model => model.FechaNotificacion)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in transacciones)
+                                        {
+                                            <tr>
+                                                <td>@item.Monto</td>
+                                                <td>@item.TipoTransaccion</td>
+                                                <td>@item.CuentaDestino</td>
+                                                <td>@item.DetallesAdicionales</td>
+                                                <td>@item.Estado</td>
+                                                <td>@item.FechaCreacion</td>
+                                                <td>@item.FechaProcesamiento</td>
+                                                <td>@item.FechaNotificacion</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="modal-footer border-top-0">
+                            <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">
+                                Cerrar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

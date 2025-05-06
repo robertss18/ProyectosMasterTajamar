@@ -1,0 +1,66 @@
+﻿@{
+    ViewData["Title"] = "Inicio";
+}
+
+<div class="container py-5 text-center">
+
+    <!-- Título -->
+    <h1 class="display-4 fw-bold text-dark mb-4">
+        <i class="bi bi-cash-stack me-2 text-success"></i> Gestión Financiera Inteligente
+    </h1>
+
+    <!-- Subtítulo -->
+    <p class="lead text-secondary mb-5">
+        Controla tus finanzas, revisa tu historial de transacciones y toma decisiones informadas con facilidad.
+    </p>
+
+    <!-- Carrusel de tarjetas -->
+    <div id="carouselOpciones" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+
+            <div class="carousel-item active">
+                <div class="card mx-auto border-0 shadow-lg rounded-4" style="max-width: 20rem; background-color: #f8f9fa;">
+                    <div class="card-body text-center">
+                        <i class="bi bi-pencil-square text-primary fs-1 mb-3"></i>
+                        <h5 class="card-title fw-semibold">Nuevo Movimiento</h5>
+                        <p class="card-text text-muted">Registra pagos y transferencias con un solo clic.</p>
+                        <a asp-controller="Transaccions" asp-action="Create" class="btn btn-primary">Registrar</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="carousel-item">
+                <div class="card mx-auto border-0 shadow-lg rounded-4" style="max-width: 20rem; background-color: #f0f2f5;">
+                    <div class="card-body text-center">
+                        <i class="bi bi-list-check text-success fs-1 mb-3"></i>
+                        <h5 class="card-title fw-semibold">Historial Financiero</h5>
+                        <p class="card-text text-muted">Revisa y organiza todas tus operaciones.</p>
+                        <a asp-controller="Transaccions" asp-action="Notificaciones" class="btn btn-success">Ver Historial</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="carousel-item">
+                <div class="card mx-auto border-0 shadow-lg rounded-4" style="max-width: 20rem; background-color: #eef5ff;">
+                    <div class="card-body text-center">
+                        <i class="bi bi-bar-chart-line text-warning fs-1 mb-3"></i>
+                        <h5 class="card-title fw-semibold">Estado de Cuenta</h5>
+                        <p class="card-text text-muted">Consulta tu saldo actual y analiza tus finanzas.</p>
+                        <a asp-controller="Transaccions" asp-action="Saldo" class="btn btn-warning text-white">Consultar</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Controles del carrusel -->
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselOpciones" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon bg-dark rounded-circle" aria-hidden="true"></span>
+            <span class="visually-hidden">Anterior</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselOpciones" data-bs-slide="next">
+            <span class="carousel-control-next-icon bg-dark rounded-circle" aria-hidden="true"></span>
+            <span class="visually-hidden">Siguiente</span>
+        </button>
+    </div>
+</div>

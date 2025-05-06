@@ -1,0 +1,68 @@
+﻿@model ProyectoAzure.Models.Transaccion
+
+@{
+    ViewData["Title"] = "Crear Transacción";
+    var saldoDisponible = ViewBag.SaldoDisponible != null ? string.Format("{0:C}", ViewBag.SaldoDisponible) : "$0.00";
+}
+
+<div class="container py-4 d-flex flex-column align-items-center">
+
+    <!-- Título -->
+    <h1 class="display-6 text-dark mb-3">
+        <i class="bi bi-cash-coin text-primary me-2 fs-3"></i> Crear Transacción
+    </h1>
+
+    <!-- Saldo Disponible -->
+    <div class="alert alert-info w-100 w-md-75 text-center" style="max-width: 600px;">
+        <strong>Saldo Disponible:</strong> <span class="fw-bold">@saldoDisponible</span>
+    </div>
+
+    <!-- Formulario -->
+    <div class="card shadow-sm border-0 rounded-4 w-100 w-md-75" style="max-width: 600px;">
+        <div class="card-body">
+            <h4 class="card-title mb-4 text-center">Detalles de la Transacción</h4>
+            <form asp-action="Create" method="post" novalidate>
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                <!-- Monto -->
+                <div class="form-floating mb-3">
+                    <input asp-for="Monto" class="form-control" placeholder="Monto" required />
+                    <label asp-for="Monto"></label>
+                    <span asp-validation-for="Monto" class="text-danger"></span>
+                </div>
+
+                <!-- Tipo de Transacción -->
+                <div class="form-floating mb-3">
+                    <select asp-for="TipoTransaccion" class="form-select">
+                        <option value="" selected disabled>Seleccione el tipo de transacción</option>
+                        <option value="PagoConTarjeta">Pago con tarjeta</option>
+                        <option value="TransferenciaBancaría">Transferencia Bancaría</option>
+                    </select>
+                    <label asp-for="TipoTransaccion"></label>
+                    <span asp-validation-for="TipoTransaccion" class="text-danger"></span>
+                </div>
+
+                <!-- Cuenta Destino -->
+                <div class="form-floating mb-3">
+                    <input asp-for="CuentaDestino" class="form-control" placeholder="Cuenta de destino" required />
+                    <label asp-for="CuentaDestino"></label>
+                    <span asp-validation-for="CuentaDestino" class="text-danger"></span>
+                </div>
+
+                <!-- Detalles Adicionales -->
+                <div class="form-floating mb-4">
+                    <input asp-for="DetallesAdicionales" class="form-control" placeholder="Detalles adicionales" />
+                    <label asp-for="DetallesAdicionales"></label>
+                    <span asp-validation-for="DetallesAdicionales" class="text-danger"></span>
+                </div>
+
+                <!-- Botón -->
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-success btn-lg">
+                        <i class="bi bi-save me-2"></i> Guardar Transacción
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

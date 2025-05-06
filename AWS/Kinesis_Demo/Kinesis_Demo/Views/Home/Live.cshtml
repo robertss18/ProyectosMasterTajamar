@@ -1,0 +1,55 @@
+﻿
+@{
+    ViewData["Title"] = "Live Kinesis";
+}
+
+<h2>Mensajes en tiempo Real desde Kinesis</h2>
+
+<form id="sendMessageForm">
+    <input type="text" name="message" id="message" placeholder="Escribe tu mensaje" required/>
+    <button type="submit">Enviar Mensaje</button>
+</form>
+
+<ul id="messageList">
+
+</ul>
+
+@section Scripts{
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        //funcion para obtener los mensajes de kinesis
+        function fetchMessages(){
+            $.get("/Home/GetKinesisMessages", function(data){
+                const list = $("#messageList");
+                list.empty();
+                data.forEach(function(msg){
+                    list.append(`<li><strong>Mensaje #${msg.index}:</strong> ${msg.message}</li>`);
+                });
+            });
+        }
+
+        //llamar en periodos de 3 segundos
+        setInterval(fetchMessages, 3000);
+
+        //Llamar inmediatamente al cargar para obetener mensajes
+        fetchMessages();
+
+        $("#sendMessageForm").submit(function(e){
+            e.preventDefault();
+
+            var message = $("#message").val();
+            $.post("/Home/SendMessage", { message: message }, function(data){
+                //Despues de enviar actualizo la lista con los nuevos mensajes
+                const list = $("#messageList");
+                list.empty();
+                data.forEach(function(msg){
+                    list.append(`<li><strong>Mensaje #${msg.index}:</strong> ${msg.message}</li>`);
+                });
+
+                $("#message").val("");
+            });
+        })
+
+    </script>
+
+}

@@ -1,0 +1,22 @@
+﻿@{
+    ViewData["Title"] = "Saldo Disponible";
+    var saldoDisponible = string.Format("{0:C}", ViewBag.SaldoDisponible);
+}
+
+<div class="container py-5 d-flex flex-column align-items-center">
+
+    <!-- Título -->
+    <h1 class="display-6 text-primary mb-4">
+        <i class="bi bi-wallet2 me-2"></i> Saldo Disponible
+    </h1>
+
+    <!-- Saldo -->
+    <div class="alert alert-info text-center fw-bold fs-4 w-100 text-dark" style="max-width: 500px;">
+        <span>Saldo Disponible:</span> <span class="text-dark">@saldoDisponible</span>
+    </div>
+
+    <!-- Botón de volver -->
+    <a asp-action="Index" class="btn btn-outline-primary mt-3">
+        <i class="bi bi-arrow-left-circle me-1"></i> Volver a Transacciones
+    </a>
+</div>

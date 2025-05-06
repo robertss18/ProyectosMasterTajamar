@@ -1,14 +1,19 @@
+
 using AzureServiceBus.Data;
 using Microsoft.EntityFrameworkCore;
+using AzureServiceBus.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+// Configurar conexión a la base de datos (Azure SQL)
 builder.Services.AddDbContext<DataDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+// Registrar el servicio de Azure Service Bus
+builder.Services.AddScoped<IServiceBusService, ServiceBusService>();
 
 var app = builder.Build();
 

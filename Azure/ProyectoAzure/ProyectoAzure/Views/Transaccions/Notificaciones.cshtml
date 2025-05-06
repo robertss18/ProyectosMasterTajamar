@@ -1,0 +1,47 @@
+﻿@model IEnumerable<ProyectoAzure.Models.Notificacion>
+
+@{
+    ViewData["Title"] = "Notificaciones";
+}
+
+<div class="container py-5">
+    <h2 class="text-primary mb-4 text-center">
+        <i class="bi bi-bell-fill me-2"></i> Historial de Notificaciones
+    </h2>
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped align-middle text-center" style="table-layout: fixed;">
+            <thead class="table-dark">
+                <tr>
+                    <th style="width: 10%">@Html.DisplayNameFor(model => model.First().NotificacionId)</th>
+                    <th style="width: 10%">@Html.DisplayNameFor(model => model.First().TransaccionId)</th>
+                    <th style="width: 25%">@Html.DisplayNameFor(model => model.First().EmailCliente)</th>
+                    <th style="width: 20%">@Html.DisplayNameFor(model => model.First().EstadoNotificacion)</th>
+                    <th style="width: 20%">@Html.DisplayNameFor(model => model.First().FechaEnvio)</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.NotificacionId</td>
+                        <td>@item.TransaccionId</td>
+                        <td class="text-truncate">@item.EmailCliente</td>
+                        <td>
+                            @if (item.EstadoNotificacion == "Exitosa")
+                            {
+                                <span class="badge bg-success">Exitosa</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-danger">Fallida</span>
+                            }
+                        </td>
+                        <td>@item.FechaEnvio.ToString("g")</td>
+                        
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
